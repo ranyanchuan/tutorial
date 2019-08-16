@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.spring.tutorial.dao.UserDao">
+
+
+    <!--获取用户信息-->
+    <resultMap id="userResultMap" type="com.yonyou.spring.tutorial.model.User">
+        <id property="id" column="id"/>
+        <result column="name" property="name"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+
+        <!--用户订单信息 实体-->
+        <!--<collection property="book" ofType="com.yonyou.spring.tutorial.model.Book" column="book">-->
+        <!--<id column="b_id" property="id"/>-->
+        <!--<result column="title" property="title"/>-->
+        <!--<result column="detail_info" property="detailInfo"/>-->
+        <!--</collection> -->
+
+        <!--用户订单信息 map对象-->
+        <collection property="book" ofType="java.util.HashMap" column="book">
+            <id column="b_id" property="id"/>
+            <result column="title" property="title"/>
+            <result column="detail_info" property="detailInfo"/>
+
+        </collection>
+
+    </resultMap>
+
+    <!--通过用户id获取用户基本信息和用户订单信息-->
+    <select id="getUserBookById" parameterType="String" resultMap="userResultMap">
+        SELECT u.*,p.title,p.id as b_id,p.detail_info
+        FROM user u, book p
+        WHERE u.id=p.user_id AND u.id=#{id}
+    </select>
+
+
+    <!--通过用户查询当前用户名是否被注册-->
+    <select id="getUserByPhone" parameterType="String" resultMap="userResultMap">
+        SELECT * FROM user WHERE phone=#{phone}
+    </select>
+
+    <!--通过用户id获取用户-->
+    <select id="getUserById" parameterType="String" resultMap="userResultMap">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
+    <!--添加新用户-->
+    <insert id="addUser" parameterType="com.yonyou.spring.tutorial.model.User">
+          insert into user(id, phone, password)
+            values(#{user.id}, #{user.phone}, #{user.password})
+    </insert>
+
+    <!--通过用户名和密码查看当前用户是否存在-->
+    <select id="getUserByPhonePass" parameterType="map" resultMap="userResultMap">
+        SELECT * FROM user WHERE phone=#{phone} and password=#{password}
+    </select>
+
+</mapper>

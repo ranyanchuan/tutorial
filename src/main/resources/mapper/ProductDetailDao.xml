@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--产品信息-->
+<mapper namespace="com.yonyou.spring.tutorial.dao.ProductDetailDao" >
+    <select id="selectProductById" resultType="map">
+        select id, name, price, images
+            from productDetail
+    </select>
+</mapper>
