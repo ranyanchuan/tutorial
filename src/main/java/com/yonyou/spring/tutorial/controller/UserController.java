@@ -19,6 +19,7 @@ public class UserController {
     // 通过用户id 查询数据
     @RequestMapping(path = "/user/query/{id}", method = RequestMethod.GET)
     public User getProductById(@PathVariable String id) {
+
         System.out.println(userService.getUserBookById(id));
         return userService.getUserBookById(id);
     }
@@ -35,7 +36,5 @@ public class UserController {
     public Map<String, String> login(@PathVariable String phone, @PathVariable String password) {
         return userService.login(phone, password);
     }
-
-
 
 }
